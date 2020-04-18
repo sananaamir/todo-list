@@ -1,8 +1,18 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
-function App() {
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { incrementCounter } from './actions/boilerplate'
+
+function App(props) {
+
+  const onClickButton = () => {
+    props.incrementCounter()
+  }
+
   return (
     <div>
       <Grid container justify="center" spacing={2}>
@@ -12,7 +22,7 @@ function App() {
             <p>
               <strong>
                 Hi there! You can clone this ready-to-go&nbsp;
-                <a href="https://github.com/sananaamir/react-flask-boilerplate" target="_blank">React-Flask Boilerplate</a>&nbsp;
+                <a href="https://github.com/sananaamir/react-flask-boilerplate" target="_blank" rel="noopener noreferrer">React-Flask Boilerplate</a>&nbsp;
                 and get started on making your exciting ideas into a reality!
               </strong>
             </p>
@@ -26,9 +36,25 @@ function App() {
             </p>
           </Paper>
         </Grid>
+        <Grid item xs={6} style={{ textAlign: 'center' }}>
+          <Button variant="contained" color="primary" onClick={onClickButton}>Click Me To Increment Redux Counter</Button>
+          <h1>{props.counter}</h1>
+        </Grid>
       </Grid>
     </div>
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    counter: state.boilerPlate.counter
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    incrementCounter
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
