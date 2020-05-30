@@ -1,8 +1,6 @@
 from flask import render_template
 from todolist import app
 
-@app.route('/')
-def index():
-    return {
-        "message": "Hello, dude!"
-    }
+@app.route('/test')
+def test():
+    return render_template("index.html")
