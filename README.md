@@ -16,3 +16,13 @@ This project is a React and Flask boilerplate. The project has handled the initi
 - Go to the URL printed in the console to see the app in action!
 
 Feel free to open issues, request new features or point out improvements in documentation! Happy Hacking!
+
+
+### Heroku & Migrations Notes:
+- Local migrations workflow:
+    - flask db init (If db does not exist)
+    - flask db migrate
+    - flask db upgrade
+- Set FLASK_APP & FLASK_ENV in heroku and local env to get the migrations to run:
+    - ALWAYS set the app flag for heroku commands using -a app_name
+- To run migrations on heroku: heroku run flask db upgrade
