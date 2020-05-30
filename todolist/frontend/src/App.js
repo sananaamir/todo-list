@@ -85,13 +85,13 @@ function App(props) {
       </Grid>
 
       <Grid container justify="center" spacing={2}>
-        <Grid item xs={4}></Grid>
-        <Grid item xs={4} style={{ textAlign: 'center' }}>
+        <Grid item xs={false} md={4}></Grid>
+        <Grid item xs={8} md={4} style={{ textAlign: 'center' }}>
           <form noValidate autoComplete="off" style={{ width: '100%' }}>
             <TextField label="Todo Item" variant="outlined" onChange={onChangeTodoText} style={{ width: '100%' }} />
           </form>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={2} md={4}>
           <Button variant="contained" color="primary" onClick={onClickButton} style={{ height: '100%' }}>
             ADD
           </Button>
@@ -110,12 +110,12 @@ function App(props) {
                 <Card variant="outlined">
                   <CardContent>
                     <Grid container>
-                      <Grid item xs={1}><ArrowRightIcon /></Grid>
-                      <Grid item xs={7} style={{ textAlign: 'left', paddingTop: '3px' }}>
+                      <Grid item xs={2}><ArrowRightIcon /></Grid>
+                      <Grid item xs={10} md={7} style={{ textAlign: 'left', paddingTop: '3px' }}>
                         {todo.todo_text}
                       </Grid>
-                      <Grid item xs={2}><a hred="#"><span style={{ position: 'relative', top: '5px' }}><EditIcon fontSize='small' /></span> Edit</a></Grid>
-                      <Grid item xs={2}><a hred="#" style={{ cursor: 'pointer' }} onClick={() => onClickDone(todo)}><span style={{ position: 'relative', top: '5px' }}><DoneIcon fontSize='small' /></span> Mark as Done</a></Grid>
+                      <Grid item xs={6} md={2}><a hred="#"><span style={{ position: 'relative', top: '5px' }}><EditIcon fontSize='small' /></span> Edit</a></Grid>
+                      <Grid item xs={6} md={2}><a hred="#" style={{ cursor: 'pointer' }} onClick={() => onClickDone(todo)}><span style={{ position: 'relative', top: '5px' }}><DoneIcon fontSize='small' /></span> Mark as Done</a></Grid>
                     </Grid>
                   </CardContent>
                 </Card>
