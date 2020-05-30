@@ -1,1 +1,1 @@
-web gunicorn todolist
+web gunicorn todolist:app
