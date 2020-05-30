@@ -39,3 +39,24 @@ export function submitTodo(callback, todoText) {
             })
     }
 }
+
+export function completeTodo(callback, todo) {
+    return (dispatch, getState) => {
+        axios.patch('/api/todos/' + todo.id, {
+            todo_text: todo.todo_text,
+            is_completed: true
+        })
+            .then(function (response) {
+                // handle success
+                callback(response.data)
+                dispatch({
+                    type: 'LOAD_TODOS',
+                    todos: response.data.todos
+                })
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+    }
+}

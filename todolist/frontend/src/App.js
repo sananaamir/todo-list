@@ -7,10 +7,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import EditIcon from '@material-ui/icons/Edit';
+import DoneIcon from '@material-ui/icons/Done';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { incrementCounter, fetchTodos, submitTodo } from './actions/boilerplate'
+import { incrementCounter, fetchTodos, submitTodo, completeTodo } from './actions/boilerplate'
 
 function App(props) {
 
@@ -40,8 +43,19 @@ function App(props) {
 
   }
 
+  const onClickDone = (todo) => {
+    setIsLoading(true)
+    props.completeTodo((data) => {
+      setTodos(data.todos)
+      setIsLoading(false)
+    }, todo)
+  }
+
+  const onClickEdit = () => {
+
+  }
+
   const onChangeTodoText = (e) => {
-    console.log(e.target.value)
     setTodoText(e.target.value)
   }
 
@@ -95,9 +109,14 @@ function App(props) {
               <Fragment key={'todo-' + index}>
                 <Card variant="outlined">
                   <CardContent>
-                    <Typography variant="h5" component="h2">
-                      {todo.todo_text}
-                    </Typography>
+                    <Grid container>
+                      <Grid item xs={1}><ArrowRightIcon /></Grid>
+                      <Grid item xs={7} style={{ textAlign: 'left', paddingTop: '3px' }}>
+                        {todo.todo_text}
+                      </Grid>
+                      <Grid item xs={2}><a hred="#"><span style={{ position: 'relative', top: '5px' }}><EditIcon fontSize='small' /></span> Edit</a></Grid>
+                      <Grid item xs={2}><a hred="#" style={{ cursor: 'pointer' }} onClick={() => onClickDone(todo)}><span style={{ position: 'relative', top: '5px' }}><DoneIcon fontSize='small' /></span> Mark as Done</a></Grid>
+                    </Grid>
                   </CardContent>
                 </Card>
                 <br></br>
@@ -121,7 +140,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     incrementCounter,
     fetchTodos,
-    submitTodo
+    submitTodo,
+    completeTodo
   }, dispatch)
 }
 

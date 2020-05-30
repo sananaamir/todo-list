@@ -19,7 +19,7 @@ def get_or_insert_todo():
         else:
             return {"error": "The request payload is not in JSON format"}
     elif request.method == 'GET':
-        todos = TodoModel.query.all()
+        todos = TodoModel.query.filter(TodoModel.is_completed == False).all()
         results = [
             {
                 "id": todo.id,
@@ -39,7 +39,7 @@ def update_or_delete_todo(todo_id):
         })
         db.session.commit()
 
-        todos = TodoModel.query.all()
+        todos = TodoModel.query.filter(TodoModel.is_completed == False).all()
         results = [
             {
                 "id": todo.id,
@@ -53,7 +53,7 @@ def update_or_delete_todo(todo_id):
         db.session.query(TodoModel).filter(TodoModel.id == todo_id).delete()
         db.session.commit()
 
-        todos = TodoModel.query.all()
+        todos = TodoModel.query.filter(TodoModel.is_completed == False).all()
         results = [
             {
                 "id": todo.id,
