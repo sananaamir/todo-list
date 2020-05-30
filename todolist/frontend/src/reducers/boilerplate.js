@@ -1,7 +1,8 @@
 import { assign } from 'lodash'
 
 const initialState = {
-    counter: 0
+    counter: 0,
+    todos: []
 }
 
 const boilerplateReducer = (state = initialState, action) => {
@@ -12,6 +13,10 @@ const boilerplateReducer = (state = initialState, action) => {
 
             return assign({}, state, {
                 counter: counter
+            })
+        case 'LOAD_TODOS':
+            return assign({}, state, {
+                todos: action.todos
             })
         default:
             return state
