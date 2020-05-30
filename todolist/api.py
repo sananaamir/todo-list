@@ -28,3 +28,37 @@ def get_or_insert_todo():
             } for todo in todos]
 
         return {"count": len(results), "todos": results}
+
+@app.route('/api/todos/<int:todo_id>', methods=['PATCH', 'DELETE'])
+def update_or_delete_todo(todo_id):
+    data = request.get_json()
+    if request.method == 'PATCH':
+        db.session.query(TodoModel).filter(TodoModel.id == todo_id).update({
+            TodoModel.todo_text: data["todo_text"],
+            TodoModel.is_completed: data["is_completed"]
+        })
+        db.session.commit()
+
+        todos = TodoModel.query.all()
+        results = [
+            {
+                "id": todo.id,
+                "todo_text": todo.todo_text,
+                "is_completed": todo.is_completed,
+            } for todo in todos]
+
+        return {"count": len(results), "todos": results}
+
+    elif request.method == 'DELETE':
+        db.session.query(TodoModel).filter(TodoModel.id == todo_id).delete()
+        db.session.commit()
+
+        todos = TodoModel.query.all()
+        results = [
+            {
+                "id": todo.id,
+                "todo_text": todo.todo_text,
+                "is_completed": todo.is_completed,
+            } for todo in todos]
+
+        return {"count": len(results), "todos": results}
