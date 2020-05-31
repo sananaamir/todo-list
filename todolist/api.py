@@ -1,6 +1,8 @@
-from flask import (request, render_template)
+from flask import (request, render_template, redirect, url_for)
+from werkzeug.security import check_password_hash
 from todolist import (app, db)
-from .models import TodoModel
+from .models import TodoModel, User
+from flask_login import login_user, login_required
 
 @app.route('/')
 def index():
@@ -8,6 +10,7 @@ def index():
         "message": "Hello, dude!"
     }
 @app.route('/api/todos', methods=['POST', 'GET'])
+@login_required
 def get_or_insert_todo():
     if request.method == 'POST':
         if request.is_json:
@@ -62,3 +65,21 @@ def update_or_delete_todo(todo_id):
             } for todo in todos]
 
         return {"count": len(results), "todos": results}
+
+@app.route('/api/login', methods=['POST'])
+def login_post():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    remember = True if request.form.get('remember') else False
+
+    user = User.query.filter_by(email=email).first()
+
+    # check if user actually exists
+    # take the user supplied password, hash it, and compare it to the hashed password in database
+    if not user:
+        return {"message": "User does not exist"}
+
+    # if the above check passes, then we know the user has the right credentials
+    # return redirect(url_for('views.test'))
+    login_user(user, remember=remember)
+    return {"message": "Successfully logged in"}
